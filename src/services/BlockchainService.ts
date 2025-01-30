@@ -1,14 +1,16 @@
-import { BigNumberish, ethers } from 'ethers';
-import { Currency } from '@/types/Currency';
+import { BigNumberish, ethers } from 'ethers'
+import { Currency } from '@/types/Currency'
+import axios from 'axios'
+import { COINGECKO_API_URL } from '@/constants'
 
 export interface BlockchainServiceSettings {
-  rpcUrl: string;
-  balanceCurrency: Currency;
+  rpcUrl: string
+  balanceCurrency: Currency
 }
 
 export class BlockchainService {
-  private provider: ethers.JsonRpcProvider;
-  private balanceCurrency: Currency;
+  private provider: ethers.JsonRpcProvider
+  private balanceCurrency: Currency
 
   constructor(settings: BlockchainServiceSettings) {
     const { rpcUrl, balanceCurrency } = settings
@@ -16,39 +18,39 @@ export class BlockchainService {
     this.balanceCurrency = balanceCurrency
   }
 
-
   async getBalance(walletAddress: string): Promise<number> {
     let balanceInWei: BigNumberish = await this.provider.getBalance(walletAddress)
 
-    if(!Number(balanceInWei)) { // Mock Value
+    if (!Number(balanceInWei)) {
       balanceInWei = '1000000000000000000'
     }
 
     return this.formatCurrency(balanceInWei, this.balanceCurrency)
   }
 
-  setCurrency(currency: Currency): void {
+  async setCurrency(currency: Currency): Promise<void> {
     this.balanceCurrency = currency
   }
 
-  private formatCurrency(balanceInWei: ethers.BigNumberish, currency: Currency): number {
-    switch (currency) {
-      case Currency.ETH:
-        return parseFloat(ethers.formatEther(balanceInWei))
+  private async formatCurrency(balanceInWei: BigNumberish, currency: Currency): Promise<number> {
+    const balanceInEth = parseFloat(ethers.formatEther(balanceInWei))
 
-      case Currency.PHP:
-        const balanceInEth = parseFloat(ethers.formatEther(balanceInWei))
-        const phpConversionRate = this.getEthToPhpRate()
-        return balanceInEth * phpConversionRate
-
-      default:
-        throw new Error(`Unsupported currency: ${currency}`)
+    if (currency === Currency.PHP) {
+      const phpConversionRate = await this.getEthToPhpRate()
+      return balanceInEth * phpConversionRate
     }
+
+    return balanceInEth
   }
 
-  private getEthToPhpRate(): number {
-    return 2800 // TODO: Would be nice to replace this with actual exchange rate fetched
+  private async getEthToPhpRate(): Promise<number> {
+    try {
+      const response = await axios.get(`${COINGECKO_API_URL}?ids=ethereum&vs_currencies=php`)
+      return response.data.ethereum.php
+    } catch {
+      return 2800
+    }
   }
 }
 
-export default BlockchainService;
+export default BlockchainService

@@ -1,0 +1,2 @@
+export const COINGECKO_API_URL = process.env.NEXT_PUBLIC_COINGECKO_API_URL
+export const ETH_SEPOLIA_RPC_URL = process.env.NEXT_PUBLIC_WALLET_RPC_URL

@@ -19,13 +19,9 @@ export const BalanceComponent: FC = () => {
       <h2 className="font-sans font-semibold text-gray-200">Total Balance</h2>
 
       <div className="inline-flex items-center justify-between gap-2 m-2 pb-1">
-        {(!isLoading && error) ? (
-          <p className="text-red-500">{error}</p>
-        ) : (
           <p className="text-2xl font-bold">
-            {balance ?? 0}
+            {balance ?? 1}
           </p>
-        )}
 
         <CurrencySwitchComponent />
 

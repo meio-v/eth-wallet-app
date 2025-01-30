@@ -8,7 +8,7 @@ const CurrencySwitchComponent: FC = () => {
   const { currency, setCurrency, refreshBalance } = useWalletContext()
   const [isOpen, setIsOpen] = useState(false)
 
-  const currencies = Object.values(Currency) // Get all enum values dynamically
+  const currencies = Object.values(Currency)
 
   const handleSelect = (newCurrency: Currency) => {
     setCurrency(newCurrency)
