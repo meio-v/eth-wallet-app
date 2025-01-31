@@ -1,15 +1,7 @@
-# Streak Tracker App
+# Eth Wallet - Technical Test
 
-This is a **Streak Tracker** application built using [Next.js](https://nextjs.org) and [NestJS](https://nestjs.com). The app helps users visualize their activity streaks with a clean and responsive UI. It includes a backend service to calculate streaks based on user activity data, which is integrated with a front-end dashboard for a seamless user experience.
+This is a **Eth Wallet - Technical Test** application built using [Next.js](https://nextjs.org) and [NestJS](https://nestjs.com). 
 
-## Features
-
-- **Dynamic Streak Visualization**: A hero section with interactive icons representing user streaks across the week.
-- **Case Switching**: Dynamically switch between different cases (`Success`, `Ongoing`, `Fail`) to analyze streak states.
-- **Backend Integration**: A powerful backend built with **NestJS** to process streak logic and return user activity data.
-- **State Indicators**: Tracks `COMPLETED`, `INCOMPLETE`, `AT_RISK`, and `SAVED` states for each day in the streak.
-- **Responsive Design**: Optimized for both desktop and mobile viewing, built with **TailwindCSS**.
-- **Smooth Animations**: Beautiful animations when switching streak cases or re-rendering components.
 
 ## Getting Started
 
@@ -57,44 +49,19 @@ The monorepo is powered by TurboRepo. The structure is as follows:
 
 ## Backend Overview
 
-The backend provides a `GET /streaks/:case` endpoint, where `:case` can be `1` (Success), `2` (Ongoing), or `3` (Fail). It returns the streak data based on pre-defined user activity:
+The backend provides a `GET /eth-info/:address` endpoint, where `:address` is an ethereum address
 
-- Example Response:
-```json
-{
-  "total": 3,
-  "days": [
-    { "date": "2024-02-26", "activities": 3, "state": "COMPLETED" },
-    { "date": "2024-02-25", "activities": 0, "state": "AT_RISK" },
-    { "date": "2024-02-24", "activities": 1, "state": "SAVED" }
-  ]
-}
-```
 
 ## Frontend Overview
 
 The frontend consists of:
-- **Hero Component**: Displays total streak count and icons for each day.
-- **Case Selector**: Lets users switch between cases (`Success`, `Ongoing`, `Fail`).
-- **Dynamic Animations**: Smooth fade-in/out and wipe animations for seamless UX.
-
-### Key Pages
-- `/`: Redirects to the default streak case (`/streaks/1`).
-- `/streaks/[case]`: Displays the streak data for a given case.
+- **Balance Component**
+- **TransactionHistoryComponent**
 
 ### Technologies Used
 - [React](https://reactjs.org)
 - [Next.js](https://nextjs.org)
 - [TailwindCSS](https://tailwindcss.com)
-
-## How It Works
-
-- **Backend**: The NestJS backend evaluates streak data based on user activities and streak rules:
-    - `COMPLETED`: At least 1 activity exists for the day.
-    - `INCOMPLETE`: No activity exists or insufficient activities on the current day.
-    - `AT_RISK`: A streak is at risk if there’s inactivity after a `COMPLETED` day.
-    - `SAVED`: A streak is saved if sufficient activities occur after an `AT_RISK` day.
-- **Frontend**: Visualizes the streak data using responsive components and animations.
 
 ## Deployment
 

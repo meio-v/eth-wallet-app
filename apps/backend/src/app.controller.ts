@@ -9,7 +9,7 @@ import { AppService } from './app.service'
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get('eth-info')
+  @Get('eth-info/:address')
   async getEthInfo(@Param('address') address: string) {
     return this.appService.getEthereumInfo(address)
   }
