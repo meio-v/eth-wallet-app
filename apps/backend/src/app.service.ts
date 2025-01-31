@@ -1,8 +1,22 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException } from '@nestjs/common'
+import { ethers } from 'ethers'
 
-@Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Hello World!';
+  private provider = new ethers.JsonRpcProvider('NEXT_PUBLIC_WALLET_RPC_URL')
+
+  async getEthereumInfo(address: string) {
+    if (!ethers.isAddress(address)) throw new BadRequestException('Invalid Ethereum address')
+
+    const [{gasPrice}, blockNumber, balance] = await Promise.all([
+      this.provider.getFeeData(),
+      this.provider.getBlockNumber(),
+      this.provider.getBalance(address)
+    ])
+
+    return {
+      gasPrice: gasPrice?.toString(),
+      blockNumber,
+      balance: ethers.formatEther(balance)
+    }
   }
 }
