@@ -35,7 +35,7 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
+apps/frontend/next-env.d.ts
 
 ### Node ###
 # Logs
@@ -261,3 +261,5 @@ fabric.properties
 !.idea/runConfigurations
 
 # End of https://www.toptal.com/developers/gitignore/api/node,webstorm+all,nextjs
+# Turborepo
+.turbo
